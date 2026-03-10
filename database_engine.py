@@ -28,3 +28,13 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 print("✅ Cerebro del sistema (DB) inicializado correctamente.")
+# 3. TABLA DE ÓRDENES (El registro real de transacciones)
+class Order(Base):
+    __tablename__ = 'orders'
+    id = Column(Integer, primary_key=True)
+    tenant_id = Column(String, ForeignKey('tenants.id'))
+    product_id = Column(Integer, ForeignKey('products.id'))
+    quantity = Column(Integer, default=1)
+    total_price = Column(Float)
+    status = Column(String, default='Pendiente') # Pendiente, Produccion, Enviado
+    created_at = Column(DateTime, default=datetime.utcnow)
